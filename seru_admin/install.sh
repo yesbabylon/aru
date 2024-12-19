@@ -118,7 +118,7 @@ systemctl restart fail2ban
 ########################
 
 # Add a symbolic link for the eQual instance listener service
-ln -s /root/aru/tapu/host-admin-listener.service /etc/systemd/system/host-admin-listener.service
+ln -s /root/aru/seru_admin/host-admin-listener.service /etc/systemd/system/host-admin-listener.service
 
 # Reload daemon
 systemctl daemon-reload
