@@ -43,6 +43,11 @@ function instance_create(array $data): array {
         throw new InvalidArgumentException("instance_already_exists", 400);
     }
 
+    $allow_multi_admins = (getenv('ALLOW_MULTI_ADMINS') ?: 'false') === 'true';
+    if(count(get_instances()) > 0 && !$allow_multi_admins) {
+        throw new InvalidArgumentException("only_one_admin_instance_allowed", 400);
+    }
+
     if(!isset($data['APP_USERNAME'])) {
         throw new InvalidArgumentException("missing_APP_USERNAME", 400);
     }
