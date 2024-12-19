@@ -4,10 +4,10 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/php -S 0.0.0.0:8000 -t /root/aru/seru_admin/ /root/aru/seru_admin/listener.php >> host-admin-listener.log 2>&1
-WorkingDirectory=/root/aru/seru_admin/listener
+ExecStart=/usr/bin/php -S 0.0.0.0:8000 -t /root/aru/seru_admin /root/aru/seru_admin/listener.php >> host-admin-listener.log 2>&1
+WorkingDirectory=/root/aru/seru_admin
 Restart=always
-SyslogIdentifier=equal-instance-listener
+SyslogIdentifier=host-admin-listener
 
 [Install]
 WantedBy=multi-user.target
