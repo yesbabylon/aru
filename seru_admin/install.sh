@@ -6,6 +6,22 @@
 INSTALL_DIR=$(pwd)
 
 
+#####################
+### Env variables ###
+#####################
+
+# Ensure .env.example exists
+if [ ! -f "$INSTALL_DIR/.env.example" ]; then
+    echo "Error: $INSTALL_DIR/.env.example does not exist."
+    exit 1
+fi
+
+# Create .env file from example if it does not exist
+if [ ! -f "$INSTALL_DIR/.env" ]; then
+    cp "$INSTALL_DIR/.env.example" "$INSTALL_DIR/.env"
+fi
+
+
 ############
 ### Base ###
 ############
