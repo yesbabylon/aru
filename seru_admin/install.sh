@@ -32,8 +32,22 @@ apt-get update
 # Set timezone to UTC (for sync with containers having UTC as default TZ)
 timedatectl set-timezone UTC
 
-# Install vnstat (bandwidth monitoring) and PHP cli (for API)
-apt-get install -y vnstat php-cli
+# Allow using domains as user names
+mv /etc/adduser.conf /etc/adduser.conf.orig
+cp "$INSTALL_DIR"/conf/etc/adduser.conf /etc/adduser.conf
+
+# Install vnstat (bandwidth monitoring) and PHP cli (for API) and FTP service
+apt-get install -y vnstat php-cli vsftpd
+
+# Custom FTP config
+mv /etc/vsftpd.conf /etc/vsftpd.conf.orig
+cp "$INSTALL_DIR"/conf/etc/vsftpd.conf /etc/vsftpd.conf
+
+# Restart FTP service
+systemctl restart vsftpd
+
+# Add logrotate directive for nginx
+cp "$INSTALL_DIR"/conf/etc/logrotate.d/nginx /etc/logrotate.d/nginx
 
 
 ######################
