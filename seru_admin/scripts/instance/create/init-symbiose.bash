@@ -11,7 +11,7 @@ mv packages packages-core
 yes | git clone -b dev-2.0 https://github.com/yesbabylon/symbiose.git packages
 mv packages-core/{core,demo} packages/
 rm -rf packages-core
-./equal.run --do=init_package package=inventory --import=true --import_cascade=true --force=true
+./equal.run --do=init_package --package=inventory --import=true --import_cascade=true --force=true
 "
 
 printf "Clone and setup of Symbiose finished.\n"
