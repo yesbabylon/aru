@@ -48,7 +48,6 @@ function status(): array {
     $interface = trim($interface, ':');
 
     $commands = [
-        'type' => 'seru_admin',
         'stats' => [
             'net' => [
                 'description' => "monthly network volume",
@@ -199,6 +198,7 @@ function status(): array {
         }
     }
 
+    $result['type'] = 'seru_admin';
     $result['config']['env'] = getenv();
 
     return [
