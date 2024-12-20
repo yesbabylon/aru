@@ -105,40 +105,6 @@ maxretry = 10
 findtime = 1d
 bantime  = 1w
 
-[prestashop]
-enabled  = true
-port     = http,https
-filter   = ps-login
-banaction = docker-action
-logpath  = /var/log/nginx/access.log*
-
-[prestashop-recidive]
-enabled  = true
-port     = http,https
-filter   = ps-login
-banaction = docker-action
-logpath  = /var/log/nginx/access.log*
-maxretry = 10
-findtime = 1d
-bantime  = 1w
-
-[joomla]
-enabled  = true
-port     = http,https
-filter   = joomla-login
-banaction = docker-action
-logpath  = /var/log/nginx/access.log*
-
-[joomla-recidive]
-enabled  = true
-port     = http,https
-filter   = joomla-login
-banaction = docker-action
-logpath  = /var/log/nginx/access.log*
-maxretry = 10
-findtime = 1d
-bantime  = 1w
-
 [equal]
 enabled  = true
 port     = http,https
