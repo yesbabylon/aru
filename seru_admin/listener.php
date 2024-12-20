@@ -19,6 +19,7 @@ $request = [
 
 $allowed_routes = [
     '/status',                          /* @link status() */
+    '/instances',                       /* @link instances() */
     '/instance/create',                 /* @link instance_create() */
     '/instance/delete',                 /* @link instance_delete() */
     '/instance/status',                 /* @link instance_status() */
