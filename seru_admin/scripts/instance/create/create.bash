@@ -143,19 +143,19 @@ printf "Env file created.\n"
 ########################################
 
 printf "Init eQual\n"
-bash "/root/b2/scripts/instance/create/init-equal.bash"
+bash "/root/aru/seru_admin/scripts/instance/create/init-equal.bash"
 
 symbiose=${symbiose:-false}
 equalpress=${equalpress:-false}
 
 if [ "$symbiose" = "true" ]; then
     printf "Init Symbiose\n"
-    bash "/root/b2/scripts/instance/create/init-symbiose.bash"
+    bash "/root/aru/seru_admin/scripts/instance/create/init-symbiose.bash"
 fi
 
 if [ "$equalpress" = "true" ]; then
     printf "Init eQualPress\n"
-    bash "/root/b2/scripts/instance/create/init-equalpress.bash"
+    bash "/root/aru/seru_admin/scripts/instance/create/init-equalpress.bash"
 fi
 
 printf "Instance successfully created.\n"
