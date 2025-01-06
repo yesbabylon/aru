@@ -16,14 +16,18 @@ $request = [
     'data'          => file_get_contents("php://input"),
 ];
 
-$allowed_routes = [
-    '/status',                  /* @link status() */
-    '/release-expired-tokens',  /* @link release_expired_tokens() */
-    '/instance/backups',        /* @link instance_backups() */
-    '/instance/create-token',   /* @link instance_create_token() */
-    '/instance/release-token'   /* @link instance_release_token() */
+$routes = [
+    'GET' => [
+        '/status',                  /* @link status() */
+        '/instance/backups',        /* @link instance_backups() */
+    ],
+    'POST' => [
+        '/release-expired-tokens',  /* @link release_expired_tokens() */
+        '/instance/create-token',   /* @link instance_create_token() */
+        '/instance/release-token'   /* @link instance_release_token() */
+    ]
 ];
 
-['body' => $body, 'code' => $code] = handle_request($request, $allowed_routes);
+['body' => $body, 'code' => $code] = handle_request($request, $routes);
 
 send_http_response($body, $code);
