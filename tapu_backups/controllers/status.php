@@ -172,7 +172,7 @@ function status(): array {
                 'description' => "number of CPU (#)",
                 'command'     => 'cat /proc/cpuinfo | grep processor | wc -l',
                 'adapt'       => function ($res) {
-                    return intval($res);
+                    return $res;
                 }
             ],
             'cpu_freq' => [
