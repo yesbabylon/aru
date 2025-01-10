@@ -50,22 +50,13 @@ function instance_create_token(array $data): array {
     $tokens = glob(TOKENS_DIR.'/*.json');
 
     $max_token = getenv('MAX_TOKEN') ?: '3';
+
     if(!is_numeric($max_token)) {
         throw new Exception("max_token_not_numeric", 500);
     }
 
-    $max_retries = 10;
-    $retry_count = 0;
-    while(count($tokens) >= $max_token) {
-        if($retry_count >= $max_retries || $no_delay) {
-            throw new InvalidArgumentException("max_token_reached_retry_limit", 400);
-        }
-
-        sleep(120); // Pause before retrying
-        $retry_count++;
-
-        // Refresh token list
-        $tokens = glob(TOKENS_DIR . '/*.json');
+    if(count($tokens) >= (int) $max_token) {
+        throw new InvalidArgumentException("max_token_reached", 400);
     }
 
     // Create token
