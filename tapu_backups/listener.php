@@ -10,9 +10,9 @@ const CONTROLLERS_DIR = __DIR__ . '/controllers';
 const TOKENS_DIR = __DIR__ . '/tokens';
 
 $request = [
-    'method'        => $_SERVER['REQUEST_METHOD'],
-    'uri'           => $_SERVER['REQUEST_URI'],
-    'content_type'  => $_SERVER['CONTENT_TYPE'],
+    'method'        => $_SERVER['REQUEST_METHOD'] ?? 'GET',
+    'uri'           => $_SERVER['REQUEST_URI'] ?? '/',
+    'content_type'  => $_SERVER['CONTENT_TYPE'] ?? 'application/json',
     'data'          => file_get_contents("php://input"),
 ];
 
@@ -29,5 +29,7 @@ $routes = [
 ];
 
 ['body' => $body, 'code' => $code] = handle_request($request, $routes);
+
+trigger_error('result: '.serialize($body), E_USER_NOTICE);
 
 send_http_response($body, $code);

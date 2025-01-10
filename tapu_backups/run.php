@@ -3,20 +3,26 @@
 function parse_arguments($argv)
 {
     $options = [
-        'route' => '',
+        'route'  => '',
         'method' => 'GET',
         'params' => [],
     ];
 
     foreach ($argv as $arg) {
-        if (preg_match('/^--route=(.+)$/', $arg, $matches)) {
+        if(preg_match('/^--route=(.+)$/', $arg, $matches)) {
             $options['route'] = $matches[1];
         } 
-		elseif (preg_match('/^--method=(.+)$/', $arg, $matches)) {
+        elseif(preg_match('/^--method=(.+)$/', $arg, $matches)) {
             $options['method'] = strtoupper($matches[1]);
         } 
-		elseif (preg_match('/^--params=(.+)$/', $arg, $matches)) {
-            parse_str($matches[1], $options['params']);
+        elseif(strpos($arg, '--') === 0) {
+            $parts = explode('=', substr($arg, 2), 2);
+            $key = $parts[0];
+            $value = isset($parts[1]) ? $parts[1] : true;
+            if(in_array($value, ['true', 'false'])) {
+                $value = (bool) $value;
+            }
+            $options['params'][$key] = $value;
         }
     }
 
@@ -30,36 +36,32 @@ function parse_arguments($argv)
 
 function send_http_request($url, $method, $params)
 {
-    $contextOptions = [
+    $context = [
         'http' => [
-            'method'  => $method,
-            'header'  => "Content-Type: application/json\r\n",
-            'content' => json_encode($params),
-            'timeout' => 10
+            'method'        => $method,
+            'header'        => "Content-Type: application/json\r\n",
+            'content'       => json_encode($params),
+            // #memo - high timeout because operation can require some time (upload/download)
+            'timeout'       => 600,
+            'ignore_errors' => true
         ]
     ];
 
-    if ($method === 'GET') {
+    if($method === 'GET') {
         if(count($params)) {
-			$url .= '?' . http_build_query($params);
-		}
-        unset($contextOptions['http']['content']);
+            $url .= '?' . http_build_query($params);
+        }
+        unset($context['http']['content']);
     }
 
-    $context = stream_context_create($contextOptions);
+    $streamContext = stream_context_create($context);
 
-    $response = @file_get_contents($url, false, $context);
+    $response = @file_get_contents($url, false, $streamContext);
+    $http_code = is_array($response) ? 200 : 500;
 
-    if ($response === false) {
-        $error = error_get_last();
-        echo "Erreur lors de la requête HTTP : " . $error['message'] . "\n";
-        return null;
-    }
-
-    $http_code = null;
-    if (isset($http_response_header)) {
-        foreach ($http_response_header as $header) {
-            if (preg_match('/^HTTP\/\d\.\d (\d{3})/', $header, $matches)) {
+    if(isset($http_response_header)) {
+        foreach($http_response_header as $header) {
+            if(preg_match('/^HTTP\/\d\.\d (\d{3})/', $header, $matches)) {
                 $http_code = intval($matches[1]);
                 break;
             }
@@ -73,9 +75,11 @@ function main($argv)
 {
     $options = parse_arguments(array_slice($argv, 1));
 
-	$path = str_replace('//', '/', '/'.$options['route']);
-
-    [$http_code, $response] = send_http_request("http://127.0.0.1:8000" . $path, $options['method'], $options['params']);
+    [$http_code, $response] = send_http_request(
+            "http://127.0.0.1:8000" . str_replace('//', '/', '/'.$options['route']), 
+            $options['method'], 
+            $options['params']
+        );
 
     echo "HTTP Status Code: $http_code\n";
     $data = json_decode($response, true);
