@@ -23,6 +23,7 @@ $routes = [
     ],
     'POST' => [
         '/release-expired-tokens',  /* @link release_expired_tokens() */
+        '/remove-expired-backups',  /* @link remove_expired_backups() */
         '/instance/create-token',   /* @link instance_create_token() */
         '/instance/release-token'   /* @link instance_release_token() */
     ]
