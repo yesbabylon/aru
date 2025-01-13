@@ -14,7 +14,7 @@ function remove_expired_backups(): array {
     }
 
     // Remove ending, if present
-    $backups_path = trim($backups_path.'/', '/');
+    $backups_path = rtrim($backups_path.'/', '/');
 
     if(!is_dir($backups_path)) {
         throw new Exception("BACKUPS_PATH_invalid", 500);
@@ -33,7 +33,6 @@ function remove_expired_backups(): array {
         // remove backups whose TTL is expired (based on current time and date in filename)
         foreach($files as $filename) {
             $matches = [];
-            $escaped_domain = preg_quote(DOMAIN_NAME);
             $re = "/(([a-zA-Z0-9-]+\.)+[a-zA-Z]{2,})_([0-9]{4}[0-9]{2}[0-9]{2}[0-9]{0,5})_([0-9]{1,3}).*/";
             if(preg_match($re, $filename, $matches)) {
                 $instance = intval($matches[1]);
