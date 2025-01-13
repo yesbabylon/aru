@@ -21,7 +21,7 @@
  *             total_proc: string,
  *             ram_use: string,
  *             cpu_use: string,
- *             disk_use: string,
+ *             dsk_use: string,
  *             usr_active: string,
  *             usr_total: string,
  *             backup_tokens_qty: string
@@ -117,7 +117,7 @@ function status(): array {
                     return $res.'%';
                 }
             ],
-            'disk_use' => [
+            'dsk_use' => [
                 'description' => "consumed disk space",
                 'command'     => 'df . -h | tail -1 | awk \'{print $3}\'',
                 'adapt'       => function ($res) {
