@@ -86,13 +86,6 @@ function status(): array {
                 'adapt'       => function ($res) {
                     return (intval($res / 86400) + 1).'days';
                 }
-            ],
-            'backups_disk' => [
-                'description' => "percentage of usage backups disk",
-                'command'     => 'df -h ' . $backups_path . ' | awk \'NR==2 {print $5}\'',
-                'adapt'       => function ($res) {
-                    return $res;
-                }
             ]
         ],
         'instant' => [
@@ -120,6 +113,13 @@ function status(): array {
             'dsk_use' => [
                 'description' => "used DISK (%)",
                 'command'     => 'df -h . | tail -1 | awk \'{printf "%.2f%%\n", $3/$2 * 100}\'',
+                'adapt'       => function ($res) {
+                    return $res;
+                }
+            ],
+            'backups_dsk_use' => [
+                'description' => "used backups DISK (%)",
+                'command'     => 'df -h '.$backups_path.' | tail -1 | awk \'{printf "%.2f%%\n", $3/$2 * 100}\'',
                 'adapt'       => function ($res) {
                     return $res;
                 }
