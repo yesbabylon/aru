@@ -138,7 +138,7 @@ function status(): array {
                     return $res;
                 }
             ],
-            'backup_tokens_qty' => [
+            'backups_tokens_qty' => [
                 'description' => "total number of currently issued backup tokens",
                 'command'     => 'find '.BASE_DIR.'/tokens -type f ! -name ".gitignore" | wc -l',
                 'adapt'       => function ($res) {
